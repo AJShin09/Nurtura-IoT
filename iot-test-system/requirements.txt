@@ -1,0 +1,2 @@
+asyncio-mqtt>=0.16.2
+bleak>=0.21.1       # Only needed for real device BLE testing

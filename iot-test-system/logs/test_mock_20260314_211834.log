@@ -1,0 +1,64 @@
+2026-03-14 21:18:34,851  INFO      TestController  Initializing MOCK test environment
+2026-03-14 21:18:35,154  INFO      BluetoothInterface  Mock BT scan found: Nurtura Rack
+2026-03-14 21:18:35,355  INFO      MockDevice  [MockDevice] Bluetooth connected
+2026-03-14 21:18:35,355  INFO      BluetoothInterface  Mock BT connected to MOCK_NURTURA_001
+2026-03-14 21:18:35,356  INFO      Validator  [PASS] Bluetooth Connection: Nurtura Rack found and connected
+2026-03-14 21:18:35,456  INFO      BluetoothInterface  Mock device ID: AABBCCDDEEFF
+2026-03-14 21:18:35,457  INFO      Validator  [PASS] Device ID Read: MAC-based device ID: AABBCCDDEEFF
+2026-03-14 21:18:35,753  ERROR     asyncio  Exception in callback AbstractEventLoop.add_reader()
+handle: <_ThreadSafeHandle AbstractEventLoop.add_reader()>
+Traceback (most recent call last):
+  File "C:\Users\jabol\AppData\Local\Programs\Python\Python314\Lib\asyncio\events.py", line 94, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jabol\AppData\Local\Programs\Python\Python314\Lib\asyncio\events.py", line 585, in add_reader
+    raise NotImplementedError
+NotImplementedError
+2026-03-14 21:18:35,755  ERROR     asyncio  Exception in callback AbstractEventLoop.add_writer()
+handle: <_ThreadSafeHandle AbstractEventLoop.add_writer()>
+Traceback (most recent call last):
+  File "C:\Users\jabol\AppData\Local\Programs\Python\Python314\Lib\asyncio\events.py", line 94, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jabol\AppData\Local\Programs\Python\Python314\Lib\asyncio\events.py", line 591, in add_writer
+    raise NotImplementedError
+NotImplementedError
+2026-03-14 21:18:36,348  INFO      MQTTListener  MQTT listener started -- broker: broker.hivemq.com, device: AABBCCDDEEFF
+2026-03-14 21:18:37,460  INFO      MockDevice  [MockDevice] Credentials received: SSID=TestNetwork
+2026-03-14 21:18:37,460  INFO      BluetoothInterface  Mock BT sent credentials: SSID=TestNetwork
+2026-03-14 21:18:37,460  INFO      Validator  [PASS] WiFi Credentials Sent: SSID and password written to BLE characteristics
+2026-03-14 21:18:37,460  INFO      MockDevice  [MockDevice] Attempting WiFi connection...
+2026-03-14 21:18:38,967  INFO      MockDevice  [MockDevice] WiFi connected to TestNetwork
+2026-03-14 21:18:38,967  INFO      MockDevice  [MockDevice] Connecting to MQTT broker...
+2026-03-14 21:18:38,981  INFO      BluetoothInterface  Mock BT status notification: connected
+2026-03-14 21:18:38,981  INFO      Validator  [PASS] BLE Status Notification: Device notified STATUS_CHAR: connected
+2026-03-14 21:18:39,096  INFO      MockDevice  [MockDevice] Rack name received: Test Rack
+2026-03-14 21:18:39,096  INFO      BluetoothInterface  Mock BT sent rack name: Test Rack
+2026-03-14 21:18:39,096  INFO      TestController  Waiting for device to reboot and publish sensor data...
+2026-03-14 21:18:39,974  INFO      MockDevice  [MockDevice] MQTT connected
+2026-03-14 21:18:39,974  INFO      MockDevice  [MockDevice] Publishing sensor data...
+2026-03-14 21:18:41,689  ERROR     asyncio  Exception in callback AbstractEventLoop.add_reader()
+handle: <_ThreadSafeHandle AbstractEventLoop.add_reader()>
+Traceback (most recent call last):
+  File "C:\Users\jabol\AppData\Local\Programs\Python\Python314\Lib\asyncio\events.py", line 94, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jabol\AppData\Local\Programs\Python\Python314\Lib\asyncio\events.py", line 585, in add_reader
+    raise NotImplementedError
+NotImplementedError
+2026-03-14 21:18:41,690  ERROR     asyncio  Exception in callback AbstractEventLoop.add_writer()
+handle: <_ThreadSafeHandle AbstractEventLoop.add_writer()>
+Traceback (most recent call last):
+  File "C:\Users\jabol\AppData\Local\Programs\Python\Python314\Lib\asyncio\events.py", line 94, in _run
+    self._context.run(self._callback, *self._args)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jabol\AppData\Local\Programs\Python\Python314\Lib\asyncio\events.py", line 591, in add_writer
+    raise NotImplementedError
+NotImplementedError
+2026-03-14 21:18:49,098  INFO      Validator  [FAIL] Sensor Data Published: No sensor readings received - device may not have connected to MQTT
+2026-03-14 21:18:49,098  WARNING   Validator  [SKIP] Sensor Data Sanity: No readings to validate
+2026-03-14 21:18:49,098  WARNING   Validator  [SKIP] Sensor Fault Flags: No readings to check
+2026-03-14 21:18:49,099  WARNING   Validator  [SKIP] Pump State: No readings to check
+2026-03-14 21:18:49,099  INFO      Validator  [FAIL] Device Online: LWT offline message received - device dropped connection
+2026-03-14 21:18:49,112  ERROR     mqtt  Caught exception in on_socket_unregister_write: 
+2026-03-14 21:18:49,113  ERROR     mqtt  Caught exception in on_socket_unregister_write: 

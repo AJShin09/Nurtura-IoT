@@ -1,0 +1,33 @@
+2026-03-14 21:15:31,751  INFO      TestController  Initializing MOCK test environment
+2026-03-14 21:15:32,063  INFO      BluetoothInterface  Mock BT scan found: Nurtura Rack
+2026-03-14 21:15:32,273  INFO      MockDevice  [MockDevice] Bluetooth connected
+2026-03-14 21:15:32,273  INFO      BluetoothInterface  Mock BT connected to MOCK_NURTURA_001
+2026-03-14 21:15:32,273  INFO      Validator  [PASS] Bluetooth Connection: Nurtura Rack found and connected
+2026-03-14 21:15:32,375  INFO      BluetoothInterface  Mock device ID: AABBCCDDEEFF
+2026-03-14 21:15:32,376  INFO      Validator  [PASS] Device ID Read: MAC-based device ID: AABBCCDDEEFF
+2026-03-14 21:15:32,377  ERROR     MQTTListener  aiomqtt not installed. Run: pip install aiomqtt
+2026-03-14 21:15:33,496  INFO      MockDevice  [MockDevice] Credentials received: SSID=TestNetwork
+2026-03-14 21:15:33,497  INFO      BluetoothInterface  Mock BT sent credentials: SSID=TestNetwork
+2026-03-14 21:15:33,497  INFO      Validator  [PASS] WiFi Credentials Sent: SSID and password written to BLE characteristics
+2026-03-14 21:15:33,497  INFO      MockDevice  [MockDevice] Attempting WiFi connection...
+2026-03-14 21:15:35,000  INFO      MockDevice  [MockDevice] WiFi connected to TestNetwork
+2026-03-14 21:15:35,001  INFO      MockDevice  [MockDevice] Connecting to MQTT broker...
+2026-03-14 21:15:35,023  INFO      BluetoothInterface  Mock BT status notification: connected
+2026-03-14 21:15:35,134  INFO      MockDevice  [MockDevice] Rack name received: Test Rack
+2026-03-14 21:15:35,134  INFO      BluetoothInterface  Mock BT sent rack name: Test Rack
+2026-03-14 21:15:35,134  INFO      TestController  Waiting for device to reboot and publish sensor data...
+2026-03-14 21:15:36,014  INFO      MockDevice  [MockDevice] MQTT connected
+2026-03-14 21:15:36,014  INFO      MockDevice  [MockDevice] Publishing sensor data...
+2026-03-14 21:15:37,522  ERROR     MockDevice  aiomqtt not installed. Run: pip install aiomqtt
+2026-03-14 21:15:37,522  INFO      MockDevice  [MockDevice] Sensor published: t=23.6 h=62.8 m=66
+2026-03-14 21:15:39,029  ERROR     MockDevice  aiomqtt not installed. Run: pip install aiomqtt
+2026-03-14 21:15:39,029  INFO      MockDevice  [MockDevice] Sensor published: t=25.0 h=66.5 m=61
+2026-03-14 21:15:40,545  ERROR     MockDevice  aiomqtt not installed. Run: pip install aiomqtt
+2026-03-14 21:15:40,545  INFO      MockDevice  [MockDevice] Sensor published: t=24.6 h=67.9 m=58
+2026-03-14 21:15:45,141  INFO      Validator  [FAIL] Sensor Data Published: No sensor readings received — device may not have connected to MQTT
+2026-03-14 21:15:45,142  WARNING   Validator  [SKIP] Sensor Data Sanity: No readings to validate
+2026-03-14 21:15:45,142  WARNING   Validator  [SKIP] Sensor Fault Flags: No readings to check
+2026-03-14 21:15:45,142  WARNING   Validator  [SKIP] Pump State: No readings to check
+2026-03-14 21:15:45,142  INFO      Validator  [FAIL] Device Online: LWT offline message received — device dropped connection
+2026-03-14 21:15:45,142  INFO      MQTTListener  MQTT listener stopped
+2026-03-14 21:15:45,143  INFO      TestController  HTML report: C:\Users\jabol\OneDrive\Documents\GitHub\Nurtura-IoT\iot-test-system\reports\report_mock_20260314_211545.html

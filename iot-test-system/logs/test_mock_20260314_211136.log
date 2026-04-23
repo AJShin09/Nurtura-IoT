@@ -1,0 +1,16 @@
+2026-03-14 21:11:36,368  INFO      TestController  Initializing MOCK test environment
+2026-03-14 21:11:36,673  INFO      BluetoothInterface  Mock BT scan found: Nurtura Rack
+2026-03-14 21:11:36,876  INFO      MockDevice  [MockDevice] Bluetooth connected
+2026-03-14 21:11:36,876  INFO      BluetoothInterface  Mock BT connected to MOCK_NURTURA_001
+2026-03-14 21:11:37,080  INFO      BluetoothInterface  Mock device ID: AABBCCDDEEFF
+2026-03-14 21:11:37,245  WARNING   mqtt  We renamed asyncio-mqtt to aiomqtt and released a version 1.0.0 in the process. This is the last release under the asyncio-mqtt name. You can find the new repository at https://github.com/sbtinstruments/aiomqtt
+2026-03-14 21:11:38,049  INFO      MQTTListener  MQTT listener started — broker: broker.hivemq.com, device: AABBCCDDEEFF
+2026-03-14 21:11:39,159  INFO      MockDevice  [MockDevice] Credentials received: SSID=TestNetwork
+2026-03-14 21:11:39,159  INFO      BluetoothInterface  Mock BT sent credentials: SSID=TestNetwork
+2026-03-14 21:11:39,162  INFO      MockDevice  [MockDevice] Attempting WiFi connection...
+2026-03-14 21:11:39,183  ERROR     asyncio  Task exception was never retrieved
+future: <Task finished name='Task-2' coro=<MQTTListener._listen_loop() done, defined at C:\Users\jabol\OneDrive\Documents\GitHub\Nurtura-IoT\iot-test-system\tester\mqtt_listener\mqtt_listener.py:61> exception=AttributeError("'Client' object has no attribute 'message_retry_set'")>
+Traceback (most recent call last):
+  File "C:\Users\jabol\OneDrive\Documents\GitHub\Nurtura-IoT\iot-test-system\tester\mqtt_listener\mqtt_listener.py", line 62, in _listen_loop
+  File "C:\Users\jabol\AppData\Local\Programs\Python\Python314\Lib\site-packages\asyncio_mqtt\client.py", line 349, in __init__
+AttributeError: 'Client' object has no attribute 'message_retry_set'

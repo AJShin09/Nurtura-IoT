@@ -1,0 +1,5 @@
+#define SECRET_SSID "BlackWidow"
+#define SECRET_PASS "Ones1mus0000007"
+#define SECRET_MQTT_HOST "e99410967d634f9987b63d2bca209fb6.s1.eu.hivemq.cloud"
+#define SECRET_MQTT_USER "Nurtura"
+#define SECRET_MQTT_PASS "Nurtura1"

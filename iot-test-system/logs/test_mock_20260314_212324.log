@@ -1,0 +1,37 @@
+2026-03-14 21:23:24,103  INFO      TestController  Initializing MOCK test environment
+2026-03-14 21:23:24,406  INFO      BluetoothInterface  Mock BT scan found: Nurtura Rack
+2026-03-14 21:23:24,607  INFO      MockDevice  [MockDevice] Bluetooth connected
+2026-03-14 21:23:24,607  INFO      BluetoothInterface  Mock BT connected to MOCK_NURTURA_001
+2026-03-14 21:23:24,608  INFO      Validator  [PASS] Bluetooth Connection: Nurtura Rack found and connected
+2026-03-14 21:23:24,712  INFO      BluetoothInterface  Mock device ID: AABBCCDDEEFF
+2026-03-14 21:23:24,712  INFO      Validator  [PASS] Device ID Read: MAC-based device ID: AABBCCDDEEFF
+2026-03-14 21:23:31,783  INFO      MQTTListener  Subscribed to nurtura/AABBCCDDEEFF/sensor
+2026-03-14 21:23:31,784  INFO      MQTTListener  Subscribed to nurtura/AABBCCDDEEFF/diag
+2026-03-14 21:23:31,784  INFO      MQTTListener  Subscribed to nurtura/noah/status
+2026-03-14 21:23:31,784  INFO      MQTTListener  MQTT listener started -- broker: broker.hivemq.com, device: AABBCCDDEEFF
+2026-03-14 21:23:32,890  INFO      MockDevice  [MockDevice] Credentials received: SSID=TestNetwork
+2026-03-14 21:23:32,890  INFO      BluetoothInterface  Mock BT sent credentials: SSID=TestNetwork
+2026-03-14 21:23:32,891  INFO      Validator  [PASS] WiFi Credentials Sent: SSID and password written to BLE characteristics
+2026-03-14 21:23:32,891  INFO      MockDevice  [MockDevice] Attempting WiFi connection...
+2026-03-14 21:23:34,398  INFO      MockDevice  [MockDevice] WiFi connected to TestNetwork
+2026-03-14 21:23:34,398  INFO      MockDevice  [MockDevice] Connecting to MQTT broker...
+2026-03-14 21:23:34,428  INFO      BluetoothInterface  Mock BT status notification: connected
+2026-03-14 21:23:34,428  INFO      Validator  [PASS] BLE Status Notification: Device notified STATUS_CHAR: connected
+2026-03-14 21:23:34,529  INFO      MockDevice  [MockDevice] Rack name received: Test Rack
+2026-03-14 21:23:34,530  INFO      BluetoothInterface  Mock BT sent rack name: Test Rack
+2026-03-14 21:23:34,530  INFO      TestController  Waiting for device to reboot and publish sensor data...
+2026-03-14 21:23:35,401  INFO      MockDevice  [MockDevice] MQTT connected
+2026-03-14 21:23:35,401  INFO      MockDevice  [MockDevice] Publishing sensor data...
+2026-03-14 21:23:36,905  INFO      MockDevice  [MockDevice] Sensor published: t=30.4 h=52.2 m=35
+2026-03-14 21:23:37,479  INFO      MQTTListener  MQTT [nurtura/AABBCCDDEEFF/sensor]: {'t': 30.4, 'h': 52.2, 'm': 35, 'lux': 703.6, 'f': 0.41, 'total': 77, 'p': 'OFF', 'l': 'ON', 'rssi': -64, 'err_bme': False, 'err_lux': False, 'uptime': 35, 'reconnects': 0}
+2026-03-14 21:23:38,412  INFO      MockDevice  [MockDevice] Sensor published: t=23.5 h=52.2 m=30
+2026-03-14 21:23:38,989  INFO      MQTTListener  MQTT [nurtura/AABBCCDDEEFF/sensor]: {'t': 23.5, 'h': 52.2, 'm': 30, 'lux': 770.8, 'f': 1.42, 'total': 352, 'p': 'OFF', 'l': 'ON', 'rssi': -79, 'err_bme': False, 'err_lux': False, 'uptime': 112, 'reconnects': 0}
+2026-03-14 21:23:39,920  INFO      MockDevice  [MockDevice] Sensor published: t=24.2 h=62.4 m=36
+2026-03-14 21:23:40,515  INFO      MQTTListener  MQTT [nurtura/AABBCCDDEEFF/sensor]: {'t': 24.2, 'h': 62.4, 'm': 36, 'lux': 139.3, 'f': 1.02, 'total': 164, 'p': 'OFF', 'l': 'ON', 'rssi': -48, 'err_bme': False, 'err_lux': False, 'uptime': 93, 'reconnects': 0}
+2026-03-14 21:23:44,533  INFO      Validator  [PASS] Sensor Data Published: Received 3 sensor reading(s) on nurtura/.../sensor
+2026-03-14 21:23:44,533  INFO      Validator  [PASS] Sensor Data Sanity: All readings within valid range
+2026-03-14 21:23:44,534  INFO      Validator  [PASS] Sensor Fault Flags: No sensor faults detected
+2026-03-14 21:23:44,534  INFO      Validator  [PASS] Pump State: All pump states valid ({'OFF', 'ERR_DRY', 'ON'})
+2026-03-14 21:23:44,534  INFO      Validator  [PASS] Device Online: Device is publishing data (online)
+2026-03-14 21:23:45,537  INFO      MQTTListener  MQTT listener stopped
+2026-03-14 21:23:45,539  INFO      TestController  HTML report: C:\Users\jabol\OneDrive\Documents\GitHub\Nurtura-IoT\iot-test-system\reports\report_mock_20260314_212345.html
