@@ -59,7 +59,7 @@
 /* ===================== LCD (HW-61) ===================== */
 // Wire  (Bus 0) → BME280             : SDA=16, SCL=17
 // Wire1 (Bus 1) → BH1750 + HW-61 LCD: SDA=21, SCL=22  ← plug LCD here
-#define LCD_ADDR     0x27   // Default PCF8574 address — run I2C scanner if blank
+#define LCD_ADDR     0x27  
 #define LCD_COLS     16
 #define LCD_ROWS      2
 LiquidCrystal_I2C lcd(LCD_ADDR, LCD_COLS, LCD_ROWS);
@@ -70,8 +70,8 @@ LiquidCrystal_I2C lcd(LCD_ADDR, LCD_COLS, LCD_ROWS);
 #define BTN_HOLD_MS             3000
 #define MQTT_RECONNECT_INTERVAL 5000
 /* ---- Sensor publish intervals ---- */
-#define SENSOR_INTERVAL_NORMAL  3000UL  // 3 seconds  — idle mode
-#define SENSOR_INTERVAL_PUMPING  60000UL  // 1 minute   — pump running
+#define SENSOR_INTERVAL_NORMAL  3000UL  
+#define SENSOR_INTERVAL_PUMPING  60000UL 
 
 /* ===================== RELAY GUARD TIMES ===================== */
 #define RELAY_MIN_ON_MS  2000
@@ -115,8 +115,8 @@ struct SystemData
     uint8_t  hum            = 0;
     uint16_t lux            = 0;
     uint8_t  moisture       = 0;
-    uint16_t waterUsed_ml   = 0;  // Water used during this cycle (mL)
-    bool     wateringOccurred = false;  // Flag: watering happened this cycle
+    uint16_t waterUsed_ml   = 0;  
+    bool     wateringOccurred = false;  
 } sys;
 
 /* ===================== GLOBALS ===================== */
@@ -223,13 +223,13 @@ SemaphoreHandle_t lcdMutex = NULL;
 
 void lcdShow(LCDState state)
 {
-    lcdState = state;   // signal TaskLCD to redraw
+    lcdState = state;   
 }
 
 void TaskLCD(void *pvParameters)
 {
     unsigned long lastSensorRefresh = 0;
-    bool          sensorRowA        = true;   // alternates A/B when connected
+    bool          sensorRowA        = true;  
 
     for (;;)
     {
@@ -238,7 +238,7 @@ void TaskLCD(void *pvParameters)
         bool stateChanged  = (lcdState != lcdLastState);
         bool sensorRefresh = (lcdState == LCD_CONNECTED || lcdState == LCD_PUMP_RUNNING)
                              && (millis() - lastSensorRefresh >= 3000);
-        bool btnRefresh    = (lcdState == LCD_BTN_HOLD);  // redraws every 500ms tick for countdown
+        bool btnRefresh    = (lcdState == LCD_BTN_HOLD); 
 
         if (!stateChanged && !sensorRefresh && !btnRefresh) continue;
 
@@ -290,7 +290,6 @@ void TaskLCD(void *pvParameters)
         case LCD_WIFI_CONNECTING:
         {
             strncpy(line1, "     WiFi       ", 16);
-            // Show SSID on line 2 — never the password
             char ssidLine[17] = {0};
             if (wifiSSIDForLCD[0] != '\0')
                 snprintf(ssidLine, sizeof(ssidLine), "%-16s", wifiSSIDForLCD);
@@ -346,7 +345,6 @@ void TaskLCD(void *pvParameters)
             }
             else if (sensorRowA)
             {
-                // Page A: Temperature + Humidity
                 int t_int  = t_x10 / 10;
                 int t_frac = abs(t_x10 % 10);
                 snprintf(line2, sizeof(line2), "T:%d.%dC  H:%u%%  ",
@@ -354,7 +352,6 @@ void TaskLCD(void *pvParameters)
             }
             else
             {
-                // Page B: Soil Moisture + Lux
                 snprintf(line2, sizeof(line2), "M:%3u%%  L:%4ulx",
                          moist, lux);
             }
@@ -544,7 +541,7 @@ void mqttMessageCallback(char *topic, byte *payload, unsigned int length)
         if (deserializeJson(bdoc, msg) == DeserializationError::Ok)
         {
             bool wasOnline  = backendOnline;
-            backendOnline   = bdoc["o"] | false;  // Default false — automation safe fallback if parse fails
+            backendOnline   = bdoc["o"] | false;  
             if (wasOnline != backendOnline)
             {
                 // State changed — log transition

@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Soil + Environment — ESP32</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">
+      <div class="logo-icon">🌱</div>
+      <h1>Soil + Environment Monitor</h1>
+    </div>
+    <p class="subtitle">ESP32 · v1.2 &amp; v2.0 · BH1750 · BME280 · Web Serial</p>
+  </header>
+
+  <div class="connect-bar">
+    <div class="status-dot" id="dot"></div>
+    <span id="status-text">Not connected</span>
+    <select id="baud-select">
+      <option value="9600">9600 baud</option>
+      <option value="115200" selected>115200 baud</option>
+      <option value="921600">921600 baud</option>
+    </select>
+    <button id="btn-connect">Connect ESP32</button>
+    <button id="btn-disconnect" class="danger" disabled>Disconnect</button>
+    <button id="btn-demo">▶ Demo Mode</button>
+  </div>
+
+  <div id="no-serial-msg">
+    ⚠️ Web Serial API not available. Use <strong>Chrome</strong> or <strong>Edge</strong> (desktop).<br>
+    Click <strong>Demo Mode</strong> to preview the dashboard.
+  </div>
+
+  <!-- Environment strip -->
+  <div class="env-strip">
+    <div class="env-card lux">
+      <div class="env-icon">☀️</div>
+      <div class="env-label">Light</div>
+      <div class="env-val" id="env-lux">—</div>
+      <div class="env-unit">lux · BH1750</div>
+      <div class="lux-bar-track">
+        <div class="lux-bar-fill" id="lux-bar"></div>
+      </div>
+    </div>
+    <div class="env-card temp">
+      <div class="env-icon">🌡️</div>
+      <div class="env-label">Temperature</div>
+      <div class="env-val" id="env-temp">—</div>
+      <div class="env-unit">°C · BME280</div>
+    </div>
+    <div class="env-card hum">
+      <div class="env-icon">💧</div>
+      <div class="env-label">Humidity</div>
+      <div class="env-val" id="env-hum">—</div>
+      <div class="env-unit">% RH · BME280</div>
+    </div>
+    <div class="env-card pres">
+      <div class="env-icon">🌬️</div>
+      <div class="env-label">Pressure</div>
+      <div class="env-val" id="env-pres">—</div>
+      <div class="env-unit">hPa · BME280</div>
+    </div>
+  </div>
+
+  <!-- Sensor columns -->
+  <div class="sensors">
+    <div class="sensor-col">
+      <div class="card a">
+        <div class="card-title">Moisture Level</div>
+        <span class="sensor-label a">v1.2 · GPIO34</span>
+        <div class="gauge-wrap">
+          <svg class="gauge-svg" viewBox="-10 -10 180 108">
+            <path class="gauge-track" d="M10,90 A70,70 0 0,1 150,90" fill="none" stroke-width="11" />
+            <path id="gauge-a" class="gauge-fill a" d="M10,90 A70,70 0 0,1 150,90" fill="none" stroke-width="11" />
+          </svg>
+          <div class="gauge-pct" id="pct-a">—</div>
+          <div class="gauge-sub">Sensor A</div>
+          <div class="badge ---" id="badge-a">No Data</div>
+        </div>
+      </div>
+      <div class="card a">
+        <div class="card-title">Raw ADC</div>
+        <div class="raw-val" id="raw-a">—</div>
+        <div class="raw-sub">0 – 4095</div>
+        <div class="bar-track">
+          <div class="bar-fill a" id="bar-a"></div>
+        </div>
+        <div class="stats-grid">
+          <div class="stat">
+            <div class="stat-label">Min</div>
+            <div class="stat-val" id="amin">—</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Max</div>
+            <div class="stat-val" id="amax">—</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Avg</div>
+            <div class="stat-val" id="aavg">—</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Reads</div>
+            <div class="stat-val" id="acnt">0</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sensor-col">
+      <div class="card b">
+        <div class="card-title">Moisture Level</div>
+        <span class="sensor-label b">v2.0 · GPIO35</span>
+        <div class="gauge-wrap">
+          <svg class="gauge-svg" viewBox="-10 -10 180 108">
+            <path class="gauge-track" d="M10,90 A70,70 0 0,1 150,90" fill="none" stroke-width="11" />
+            <path id="gauge-b" class="gauge-fill b" d="M10,90 A70,70 0 0,1 150,90" fill="none" stroke-width="11" />
+          </svg>
+          <div class="gauge-pct" id="pct-b">—</div>
+          <div class="gauge-sub">Sensor B</div>
+          <div class="badge ---" id="badge-b">No Data</div>
+        </div>
+      </div>
+      <div class="card b">
+        <div class="card-title">Raw ADC</div>
+        <div class="raw-val" id="raw-b">—</div>
+        <div class="raw-sub">0 – 4095</div>
+        <div class="bar-track">
+          <div class="bar-fill b" id="bar-b"></div>
+        </div>
+        <div class="stats-grid">
+          <div class="stat">
+            <div class="stat-label">Min</div>
+            <div class="stat-val" id="bmin">—</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Max</div>
+            <div class="stat-val" id="bmax">—</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Avg</div>
+            <div class="stat-val" id="bavg">—</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Reads</div>
+            <div class="stat-val" id="bcnt">0</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Combined chart -->
+  <div class="chart-wrap">
+    <div class="card">
+      <div class="card-title" style="display:flex;align-items:center;gap:1.2rem;">
+        <span>Moisture History (last 60 readings)</span>
+        <span style="color:var(--a);font-size:.65rem;">■ v1.2</span>
+        <span style="color:var(--b);font-size:.65rem;">■ v2.0</span>
+      </div>
+      <canvas id="chart"></canvas>
+    </div>
+  </div>
+
+  <!-- Log -->
+  <div class="log-wrap">
+    <div class="card">
+      <div class="log-header">
+        <span class="log-title">Serial Log</span>
+        <button id="btn-clear" style="padding:.22rem .65rem;font-size:.62rem;">Clear</button>
+      </div>
+      <div id="log"></div>
+    </div>
+  </div>
+
+  <script>
+    // ─── State ────────────────────────────────────────────────────────────────────
+    const MAX_PTS = 60;
+    const state = {
+      'v1.2': { readings: [], chart: [] },
+      'v2.0': { readings: [], chart: [] },
+    };
+
+    // ─── Gauge helper ─────────────────────────────────────────────────────────────
+    const DASH = 251.2;
+    function setGauge(el, pct, cls) {
+      el.style.strokeDashoffset = DASH - (pct / 100) * DASH;
+      if (cls === 'a') {
+        el.style.stroke = pct < 30 ? '#e05252' : pct < 50 ? '#f5a623' : '#3ddc6e';
+      } else {
+        el.style.stroke = pct < 30 ? '#e05252' : pct < 50 ? '#f5a623' : '#4fc3f7';
+      }
+    }
+
+    // ─── Soil UI update ───────────────────────────────────────────────────────────
+    function updateSensor(id, raw, pct, status) {
+      const pre = id === 'v1.2' ? 'a' : 'b';
+
+      document.getElementById('pct-' + pre).textContent = pct.toFixed(1) + '%';
+      setGauge(document.getElementById('gauge-' + pre), pct, pre);
+
+      const badge = document.getElementById('badge-' + pre);
+      badge.className = 'badge ' + status;
+      badge.textContent = { OK: '✓ Well Watered', DRY: '⚠ Needs Water', WET: '💧 Saturated' }[status] || status;
+
+      document.getElementById('raw-' + pre).textContent = raw;
+      document.getElementById('bar-' + pre).style.width = ((raw / 4095) * 100) + '%';
+
+      const s = state[id];
+      s.readings.push(pct);
+      s.chart.push(pct);
+      if (s.chart.length > MAX_PTS) s.chart.shift();
+
+      document.getElementById(pre + 'min').textContent = Math.min(...s.readings).toFixed(1) + '%';
+      document.getElementById(pre + 'max').textContent = Math.max(...s.readings).toFixed(1) + '%';
+      const avg = s.readings.reduce((a, b) => a + b, 0) / s.readings.length;
+      document.getElementById(pre + 'avg').textContent = avg.toFixed(1) + '%';
+      document.getElementById(pre + 'cnt').textContent = s.readings.length;
+
+      drawChart();
+    }
+
+    // ─── Environment UI update ────────────────────────────────────────────────────
+    function updateEnv(lux, temp, hum, pres) {
+      if (lux >= 0) {
+        document.getElementById('env-lux').textContent = lux.toFixed(0);
+        // Max expected ~65535 lx; cap bar at 10000 for indoor use
+        document.getElementById('lux-bar').style.width = Math.min(lux / 10000 * 100, 100) + '%';
+      }
+      if (temp >= 0) document.getElementById('env-temp').textContent = temp.toFixed(1);
+      if (hum >= 0) document.getElementById('env-hum').textContent = hum.toFixed(1);
+      if (pres >= 0) document.getElementById('env-pres').textContent = pres.toFixed(0);
+    }
+
+    // ─── Chart ────────────────────────────────────────────────────────────────────
+    const canvas = document.getElementById('chart');
+    const ctx = canvas.getContext('2d');
+
+    function drawChart() {
+      const W = canvas.offsetWidth, H = canvas.offsetHeight;
+      canvas.width = W; canvas.height = H;
+      ctx.clearRect(0, 0, W, H);
+
+      ctx.strokeStyle = '#1e3322'; ctx.lineWidth = 1;
+      [25, 50, 75].forEach(p => {
+        const y = H - (p / 100) * H;
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+        ctx.fillStyle = '#4a7a52'; ctx.font = '9px Space Mono';
+        ctx.fillText(p + '%', 4, y - 3);
+      });
+
+      const dsets = [
+        { data: state['v1.2'].chart, color: '#3ddc6e', glow: '#3ddc6e33' },
+        { data: state['v2.0'].chart, color: '#4fc3f7', glow: '#4fc3f733' },
+      ];
+
+      dsets.forEach(({ data, color, glow }) => {
+        if (data.length < 2) return;
+        const stepX = W / (MAX_PTS - 1);
+
+        const grad = ctx.createLinearGradient(0, 0, 0, H);
+        grad.addColorStop(0, glow); grad.addColorStop(1, 'transparent');
+        ctx.beginPath();
+        data.forEach((v, i) => { const x = i * stepX, y = H - (v / 100) * H; i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); });
+        ctx.lineTo((data.length - 1) * stepX, H); ctx.lineTo(0, H); ctx.closePath();
+        ctx.fillStyle = grad; ctx.fill();
+
+        ctx.beginPath(); ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.lineJoin = 'round';
+        data.forEach((v, i) => { const x = i * stepX, y = H - (v / 100) * H; i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); });
+        ctx.stroke();
+
+        const lx = (data.length - 1) * stepX, ly = H - (data[data.length - 1] / 100) * H;
+        ctx.beginPath(); ctx.arc(lx, ly, 4, 0, Math.PI * 2); ctx.fillStyle = color; ctx.fill();
+      });
+    }
+
+    window.addEventListener('resize', drawChart);
+
+    // ─── Log ─────────────────────────────────────────────────────────────────────
+    const logEl = document.getElementById('log');
+    function logLine(text, cls = 'system') {
+      const ts = new Date().toLocaleTimeString('en', { hour12: false });
+      const div = document.createElement('div');
+      div.className = 'log-line ' + cls;
+      div.textContent = `[${ts}] ${text}`;
+      logEl.appendChild(div);
+      logEl.scrollTop = logEl.scrollHeight;
+      while (logEl.children.length > 200) logEl.removeChild(logEl.firstChild);
+    }
+    document.getElementById('btn-clear').onclick = () => logEl.innerHTML = '';
+
+    // ─── Parse serial line ────────────────────────────────────────────────────────
+    function parseLine(line) {
+      // Soil: DATA,<id>,<raw>,<pct>,<status>
+      const mSoil = line.match(/^DATA,(v[\d.]+),(\d+),([\d.]+),(OK|DRY|WET)/);
+      if (mSoil) {
+        const id = mSoil[1], raw = parseInt(mSoil[2]), pct = parseFloat(mSoil[3]), status = mSoil[4];
+        updateSensor(id, raw, pct, status);
+        logLine(`[${id}] raw=${raw}  moisture=${pct}%  status=${status}`, id === 'v1.2' ? 'a' : 'b');
+        return;
+      }
+      // Env: ENV,<lux>,<tempC>,<hum>,<hPa>
+      const mEnv = line.match(/^ENV,([-\d.]+),([-\d.]+),([-\d.]+),([-\d.]+)/);
+      if (mEnv) {
+        const lux = parseFloat(mEnv[1]), temp = parseFloat(mEnv[2]), hum = parseFloat(mEnv[3]), pres = parseFloat(mEnv[4]);
+        updateEnv(lux, temp, hum, pres);
+        logLine(`[ENV] lux=${lux}  temp=${temp}°C  hum=${hum}%  pres=${pres}hPa`, 'env');
+        return;
+      }
+      if (line.trim()) logLine(line, 'system');
+    }
+
+    // ─── Web Serial ──────────────────────────────────────────────────────────────
+    let port, reader, keepReading = false;
+    const btnConnect = document.getElementById('btn-connect');
+    const btnDisconnect = document.getElementById('btn-disconnect');
+    const dot = document.getElementById('dot');
+    const statusText = document.getElementById('status-text');
+
+    function setConnected(yes) {
+      dot.className = 'status-dot' + (yes ? ' connected' : '');
+      statusText.textContent = yes ? 'Connected' : 'Not connected';
+      btnConnect.disabled = yes;
+      btnDisconnect.disabled = !yes;
+    }
+
+    async function connectSerial() {
+      if (!('serial' in navigator)) {
+        document.getElementById('no-serial-msg').style.display = 'block';
+        logLine('Web Serial not available. Use Chrome/Edge desktop.', 'error');
+        return;
+      }
+      try {
+        const baud = parseInt(document.getElementById('baud-select').value);
+        port = await navigator.serial.requestPort();
+        await port.open({ baudRate: baud });
+        setConnected(true);
+        logLine(`Port opened at ${baud} baud`);
+        keepReading = true;
+        readLoop();
+      } catch (e) {
+        logLine('Connection failed: ' + e.message, 'error');
+        dot.className = 'status-dot error';
+      }
+    }
+
+    async function readLoop() {
+      const decoder = new TextDecoderStream();
+      port.readable.pipeTo(decoder.writable);
+      reader = decoder.readable.getReader();
+      let buf = '';
+      try {
+        while (keepReading) {
+          const { value, done } = await reader.read();
+          if (done) break;
+          buf += value;
+          const lines = buf.split('\n'); buf = lines.pop();
+          lines.forEach(parseLine);
+        }
+      } catch (e) {
+        logLine('Read error: ' + e.message, 'error');
+      } finally {
+        reader.releaseLock();
+        setConnected(false);
+        logLine('Disconnected');
+      }
+    }
+
+    async function disconnectSerial() {
+      keepReading = false;
+      try { await reader?.cancel(); } catch { }
+      try { await port?.close(); } catch { }
+      setConnected(false);
+    }
+
+    btnConnect.onclick = connectSerial;
+    btnDisconnect.onclick = disconnectSerial;
+
+    // ─── Demo Mode ────────────────────────────────────────────────────────────────
+    let demoTimer = null;
+    let dA = 40, dB = 55, dirA = 1, dirB = -1;
+    let demoTick = 0;
+
+    document.getElementById('btn-demo').onclick = function () {
+      if (demoTimer) {
+        clearInterval(demoTimer); demoTimer = null;
+        this.textContent = '▶ Demo Mode';
+        logLine('Demo stopped');
+        return;
+      }
+      this.textContent = '■ Stop Demo';
+      logLine('Demo mode — simulating v1.2, v2.0, BH1750, BME280');
+      setConnected(true); statusText.textContent = 'Demo Mode';
+
+      demoTimer = setInterval(() => {
+        demoTick++;
+        dA += dirA * (Math.random() * 2.5); if (dA > 90) dirA = -1; if (dA < 5) dirA = 1; dA = Math.max(0, Math.min(100, dA));
+        dB += dirB * (Math.random() * 2); if (dB > 88) dirB = -1; if (dB < 8) dirB = 1; dB = Math.max(0, Math.min(100, dB));
+
+        const rawA = Math.round(3400 - (dA / 100) * (3400 - 1300));
+        const rawB = Math.round(3500 - (dB / 100) * (3500 - 1100));
+        const stA = dA < 30 ? 'DRY' : dA > 70 ? 'WET' : 'OK';
+        const stB = dB < 30 ? 'DRY' : dB > 70 ? 'WET' : 'OK';
+
+        updateSensor('v1.2', rawA, dA, stA);
+        updateSensor('v2.0', rawB, dB, stB);
+        logLine(`[v1.2] raw=${rawA}  moisture=${dA.toFixed(1)}%  status=${stA}`, 'a');
+        logLine(`[v2.0] raw=${rawB}  moisture=${dB.toFixed(1)}%  status=${stB}`, 'b');
+
+        const lux = Math.max(0, 800 + Math.sin(demoTick * 0.15) * 600 + (Math.random() - 0.5) * 80);
+        const temp = 27 + Math.sin(demoTick * 0.05) * 3 + (Math.random() - 0.5) * 0.5;
+        const hum = 60 + Math.cos(demoTick * 0.07) * 15 + (Math.random() - 0.5) * 2;
+        const pres = 1013 + Math.sin(demoTick * 0.03) * 5 + (Math.random() - 0.5) * 1;
+        updateEnv(lux, temp, hum, pres);
+        logLine(`[ENV] lux=${lux.toFixed(0)}  temp=${temp.toFixed(1)}°C  hum=${hum.toFixed(1)}%  pres=${pres.toFixed(0)}hPa`, 'env');
+      }, 900);
+    };
+
+    // ─── Init ─────────────────────────────────────────────────────────────────────
+    if (!('serial' in navigator)) document.getElementById('no-serial-msg').style.display = 'block';
+    logLine('Dashboard ready — connect ESP32 or run Demo Mode.');
+    drawChart();
+  </script>
+
+</body>
+
+</html>

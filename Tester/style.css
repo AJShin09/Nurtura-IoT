@@ -1,0 +1,586 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap');
+
+:root {
+    --bg: #0d1a0f;
+    --panel: #131f15;
+    --border: #1e3322;
+    --muted: #4a7a52;
+    --text: #c8e6c9;
+    --a: #3ddc6e;
+    --a-dim: #1a5c30;
+    --a-glow: #3ddc6e55;
+    --b: #4fc3f7;
+    --b-dim: #0d3a4f;
+    --b-glow: #4fc3f755;
+    --amber: #f5a623;
+    --red: #e05252;
+    --sun: #ffe066;
+    --sun-dim: #3a2e00;
+    --teal: #26e8c8;
+    --teal-dim: #093028;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Space Mono', monospace;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem 4rem;
+    background-image:
+        radial-gradient(ellipse 70% 35% at 50% 0%, #0d2e1560 0%, transparent 65%),
+        repeating-linear-gradient(0deg, transparent, transparent 39px, #1a2e1c18 39px, #1a2e1c18 40px),
+        repeating-linear-gradient(90deg, transparent, transparent 39px, #1a2e1c18 39px, #1a2e1c18 40px);
+}
+
+/* ── Header ── */
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.logo {
+    display: inline-flex;
+    align-items: center;
+    gap: .7rem;
+    margin-bottom: .4rem;
+}
+
+.logo-icon {
+    width: 38px;
+    height: 38px;
+    background: var(--a);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    animation: pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 #3ddc6e44;
+    }
+
+    50% {
+        box-shadow: 0 0 0 14px #3ddc6e00;
+    }
+}
+
+h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.3rem, 4vw, 1.9rem);
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -.02em;
+}
+
+.subtitle {
+    font-size: .72rem;
+    color: var(--muted);
+    letter-spacing: .15em;
+    text-transform: uppercase;
+}
+
+/* ── Connect bar ── */
+.connect-bar {
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.status-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--muted);
+    transition: background .4s;
+    flex-shrink: 0;
+}
+
+.status-dot.connected {
+    background: var(--a);
+    box-shadow: 0 0 8px var(--a);
+}
+
+.status-dot.error {
+    background: var(--red);
+    box-shadow: 0 0 8px var(--red);
+}
+
+#status-text {
+    font-size: .78rem;
+    color: var(--muted);
+}
+
+button {
+    font-family: 'Space Mono', monospace;
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    border: 1px solid var(--a-dim);
+    background: transparent;
+    color: var(--a);
+    padding: .45rem 1.1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background .2s, border-color .2s;
+}
+
+button:hover {
+    background: var(--a-dim);
+    border-color: var(--a);
+}
+
+button:disabled {
+    opacity: .3;
+    cursor: default;
+}
+
+button.danger {
+    color: var(--red);
+    border-color: #5a2424;
+}
+
+button.danger:hover {
+    background: #3a1414;
+    border-color: var(--red);
+}
+
+select {
+    font-family: 'Space Mono', monospace;
+    font-size: .75rem;
+    background: var(--panel);
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: .42rem .8rem;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* ── Environment strip ── */
+.env-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    width: 100%;
+    max-width: 860px;
+    margin-bottom: 1.2rem;
+}
+
+@media (max-width: 600px) {
+    .env-strip {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.env-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.env-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+}
+
+.env-card.lux::before {
+    background: var(--sun);
+}
+
+.env-card.temp::before {
+    background: var(--red);
+}
+
+.env-card.hum::before {
+    background: var(--b);
+}
+
+.env-card.pres::before {
+    background: var(--teal);
+}
+
+.env-icon {
+    font-size: 1.3rem;
+    line-height: 1;
+}
+
+.env-label {
+    font-size: .6rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.env-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.7rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.1;
+}
+
+.env-unit {
+    font-size: .65rem;
+    color: var(--muted);
+}
+
+/* Lux meter bar */
+.lux-bar-track {
+    width: 100%;
+    height: 5px;
+    background: var(--border);
+    border-radius: 3px;
+    margin-top: .4rem;
+    overflow: hidden;
+}
+
+.lux-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: var(--sun);
+    width: 0%;
+    transition: width .8s cubic-bezier(.4, 0, .2, 1);
+}
+
+/* ── Soil sensor columns ── */
+.sensors {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+    width: 100%;
+    max-width: 860px;
+    margin-bottom: 1.2rem;
+}
+
+@media (max-width: 560px) {
+    .sensors {
+        grid-template-columns: 1fr;
+    }
+}
+
+.sensor-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.3rem;
+}
+
+.card.a {
+    border-color: var(--a-dim);
+}
+
+.card.b {
+    border-color: var(--b-dim);
+}
+
+.card-title {
+    font-size: .67rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+}
+
+.sensor-label {
+    display: inline-block;
+    font-family: 'Syne', sans-serif;
+    font-size: .85rem;
+    font-weight: 700;
+    padding: .15rem .6rem;
+    border-radius: 3px;
+    margin-bottom: .8rem;
+}
+
+.sensor-label.a {
+    color: var(--a);
+    background: var(--a-dim);
+}
+
+.sensor-label.b {
+    color: var(--b);
+    background: var(--b-dim);
+}
+
+.gauge-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .8rem;
+}
+
+.gauge-svg {
+    width: 160px;
+    height: 98px;
+    overflow: visible;
+}
+
+.gauge-track {
+    stroke: var(--border);
+}
+
+.gauge-fill {
+    stroke-linecap: round;
+    stroke-dasharray: 251.2;
+    stroke-dashoffset: 251.2;
+    transition: stroke-dashoffset .8s cubic-bezier(.4, 0, .2, 1), stroke .5s;
+}
+
+.gauge-fill.a {
+    stroke: var(--a);
+}
+
+.gauge-fill.b {
+    stroke: var(--b);
+}
+
+.gauge-pct {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1;
+}
+
+.gauge-sub {
+    font-size: .65rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+/* ── Status badges ── */
+.badge {
+    display: inline-block;
+    padding: .25rem .9rem;
+    border-radius: 20px;
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    border: 1px solid;
+    transition: all .4s;
+}
+
+.badge.OK {
+    color: var(--a);
+    border-color: var(--a-dim);
+    background: #0d2e1870;
+}
+
+.badge.DRY {
+    color: var(--amber);
+    border-color: #5a3a0a;
+    background: #2e1d0870;
+}
+
+.badge.WET {
+    color: var(--b);
+    border-color: var(--b-dim);
+    background: #06203070;
+}
+
+.badge.--- {
+    color: var(--muted);
+    border-color: var(--border);
+    background: transparent;
+}
+
+/* ── Raw ADC card ── */
+.raw-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #fff;
+}
+
+.raw-sub {
+    font-size: .68rem;
+    color: var(--muted);
+    margin-bottom: .8rem;
+}
+
+.bar-track {
+    width: 100%;
+    height: 7px;
+    background: var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    width: 0%;
+    transition: width .8s cubic-bezier(.4, 0, .2, 1);
+}
+
+.bar-fill.a {
+    background: var(--a);
+}
+
+.bar-fill.b {
+    background: var(--b);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .6rem;
+    margin-top: .8rem;
+}
+
+.stat {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: .65rem;
+}
+
+.stat-label {
+    font-size: .6rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: .2rem;
+}
+
+.stat-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+/* ── Chart ── */
+.chart-wrap {
+    width: 100%;
+    max-width: 860px;
+    margin-bottom: 1.2rem;
+}
+
+.chart-wrap .card {
+    padding: 1.1rem 1.3rem;
+}
+
+canvas#chart {
+    width: 100% !important;
+    height: 170px !important;
+    display: block;
+}
+
+/* ── Log ── */
+.log-wrap {
+    width: 100%;
+    max-width: 860px;
+}
+
+.log-wrap .card {
+    padding: 0;
+    overflow: hidden;
+}
+
+.log-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: .7rem 1.1rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.log-title {
+    font-size: .67rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+#log {
+    font-size: .7rem;
+    line-height: 1.7;
+    height: 170px;
+    overflow-y: auto;
+    padding: .8rem 1.1rem;
+}
+
+#log::-webkit-scrollbar {
+    width: 4px;
+}
+
+#log::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 2px;
+}
+
+.log-line.a {
+    color: var(--a);
+}
+
+.log-line.b {
+    color: var(--b);
+}
+
+.log-line.env {
+    color: var(--sun);
+}
+
+.log-line.system {
+    color: var(--muted);
+}
+
+.log-line.warn {
+    color: var(--amber);
+}
+
+.log-line.error {
+    color: var(--red);
+}
+
+/* ── No-serial warning ── */
+#no-serial-msg {
+    display: none;
+    width: 100%;
+    max-width: 860px;
+    background: #2e1d08;
+    border: 1px solid #5a3a0a;
+    border-radius: 8px;
+    padding: 1rem 1.3rem;
+    color: var(--amber);
+    font-size: .78rem;
+    line-height: 1.7;
+    margin-bottom: 1.2rem;
+}
